@@ -1,45 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import MatchForm from './MatchForm';
 import MatchList from './MatchList';
+import ScoreboardStore from '../store/ScoreboardStore';
 
 const Scoreboard = () => {
+  // Create an instance of ScoreboardStore
+  const [store] = useState(() => new ScoreboardStore());
   const [matches, setMatches] = useState([]);
 
-  const addMatch = (homeTeam, awayTeam) => {
-    setMatches([
-      ...matches,
-      {
-        homeTeam,
-        awayTeam,
-        homeScore: 0,
-        awayScore: 0,
-        startTime: new Date(),
-      },
-    ]);
+  // Sync the matches with the store's data
+  const refreshMatches = () => {
+    setMatches(store.getSummary());
   };
 
-  const updateScore = (homeScore, awayScore) => {
-    setMatches(matches.map((match, index) => ({
-      ...match,
-      homeScore: parseInt(homeScore, 10) || match.homeScore,
-      awayScore: parseInt(awayScore, 10) || match.awayScore,
-    })));
+  const addMatch = (homeTeam, awayTeam) => {
+    store.addMatch(homeTeam, awayTeam);
+    refreshMatches();  // Update the state to reflect the store changes
+  };
+
+  const updateScore = (index, homeScore, awayScore) => {
+    store.updateScore(index, homeScore, awayScore);
+    refreshMatches();
   };
 
   const finishMatch = (index) => {
-    setMatches(matches.filter((_, i) => i !== index));
+    store.finishMatch(index);
+    refreshMatches();
   };
 
-  const sortedMatches = [...matches].sort((a, b) => {
-    const totalScoreA = a.homeScore + a.awayScore;
-    const totalScoreB = b.homeScore + b.awayScore;
-    return totalScoreB - totalScoreA || b.startTime - a.startTime;
-  });
+  useEffect(() => {
+    refreshMatches();
+  }, []);
 
   return (
     <div>
-      <MatchForm onAddMatch={addMatch} onUpdateScore={updateScore} />
-      <MatchList matches={sortedMatches} onFinishMatch={finishMatch} />
+      <MatchForm onAddMatch={addMatch} />
+      <MatchList matches={matches} onUpdateScore={updateScore} onFinishMatch={finishMatch} />
     </div>
   );
 };
