@@ -1,20 +1,25 @@
 import React from 'react';
 
 const MatchList = ({ matches, onUpdateScore, onFinishMatch }) => {
+  if (matches.length === 0) {
+    return <div>No live matches.</div>;
+  }
+
   return (
     <div>
-      <h2>Live Matches</h2>
       {matches.map((match, index) => (
         <div key={index}>
-          <span>{match.homeTeam} {match.homeScore} - {match.awayScore} {match.awayTeam}</span>
+          <span>{match.getMatchSummary()}</span>
           <input
             type="number"
             placeholder="Home Score"
+            value={match.homeScore}
             onChange={(e) => onUpdateScore(index, e.target.value, match.awayScore)}
           />
           <input
             type="number"
             placeholder="Away Score"
+            value={match.awayScore}
             onChange={(e) => onUpdateScore(index, match.homeScore, e.target.value)}
           />
           <button onClick={() => onFinishMatch(index)}>Finish Match</button>

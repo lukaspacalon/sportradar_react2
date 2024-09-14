@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import MatchForm from './MatchForm';
 import MatchList from './MatchList';
-import ScoreboardStore from '../store/ScoreboardStore';
+import { ScoreboardStore } from '../store/ScoreboardStore';
 
 const Scoreboard = () => {
-  // Create an instance of ScoreboardStore
   const [store] = useState(() => new ScoreboardStore());
   const [matches, setMatches] = useState([]);
 
-  // Sync the matches with the store's data
+  // Sync the live matches with the store's data
   const refreshMatches = () => {
-    setMatches(store.getSummary());
+    setMatches(store.getLiveSummary());
   };
 
   const addMatch = (homeTeam, awayTeam) => {
     store.addMatch(homeTeam, awayTeam);
-    refreshMatches();  // Update the state to reflect the store changes
+    refreshMatches();
   };
 
   const updateScore = (index, homeScore, awayScore) => {

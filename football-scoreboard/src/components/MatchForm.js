@@ -5,9 +5,11 @@ const MatchForm = ({ onAddMatch }) => {
   const [awayTeam, setAwayTeam] = useState('');
 
   const handleAddMatch = () => {
-    onAddMatch(homeTeam, awayTeam);
-    setHomeTeam('');
-    setAwayTeam('');
+    if (homeTeam && awayTeam) {
+      onAddMatch(homeTeam, awayTeam);
+      setHomeTeam('');
+      setAwayTeam('');
+    }
   };
 
   return (
