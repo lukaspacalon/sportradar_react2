@@ -68,3 +68,45 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+# Live Football World Cup Scoreboard
+
+## Overview
+This React application displays a live scoreboard for ongoing football matches. It allows you to add new matches, update scores, and finish games.
+
+## Features
+1. **Start a new game**: Add a new match with initial score 0 - 0.
+2. **Update score**: Update the scores of ongoing matches.
+3. **Finish game**: Remove a match from the scoreboard.
+4. **Summary**: Display matches ordered by total score and recency.
+
+## Setup
+
+1. Clone the repository:
+    ```bash
+    git clone <repository-url>
+    cd football-scoreboard
+    ```
+
+2. Install dependencies:
+    ```bash
+    npm install
+    ```
+
+3. Run the application:
+    ```bash
+    npm start
+    ```
+
+4. Run tests:
+    ```bash
+    npm test
+    ```
+
+## Assumptions
+- The application uses in-memory state management.
+- Score updates are handled by directly setting values.
+- Matches are displayed in order of their total score and recency.
+
+## Notes
+Feel free to modify the components and styles as needed for a more comprehensive application.
